@@ -27,7 +27,6 @@ export default function RootLayout() {
   useEffect(() => {
     // Listen for changes to authentication state
     const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('supabase.auth.onAuthStateChange', event, session);
 
       setSession(session);
       setInitialized(true);
@@ -42,10 +41,9 @@ export default function RootLayout() {
 
     // Check if the path/url is in the (auth) group
     const inAuthGroup = segments[0] === '(auth)';
-
     if (session && !inAuthGroup) {
-      // Redirect authenticated users to the list page
-      router.replace('/(auth)/');
+      // Redirect authenticated users to the index page
+      router.replace('/(auth)/home');
     } else if (!session) {
       // Redirect unauthenticated users to the login page
       router.replace('/');
