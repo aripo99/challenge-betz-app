@@ -1,132 +1,129 @@
-import Gradient from "../assets/Icons/Gradient";
-import DocumentData from "../assets/Icons/DocumentData";
-import LightBulbPerson from "../assets/Icons/LightbulbPerson";
-import Rocket from "../assets/Icons/Rocket";
-import Logo from "../assets/Icons/Logo";
 import {
-  Box,
+  Alert,
+  View,
   Button,
-  ButtonText,
-  HStack,
-  ScrollView,
+  TextInput,
+  StyleSheet,
   Text,
-} from "@gluestack-ui/themed";
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import { useState } from 'react';
+import React from 'react';
+import { supabase } from '@/utils/supabase';
+import { AppleAuth } from '../components/AppleAuth.native';
 
-import { Link } from "expo-router";
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-const FeatureCard = ({ iconSvg: IconSvg, name, desc }: any) => {
+  // Sign in with email and password
+  const onSignInPress = async () => {
+    setLoading(true);
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) Alert.alert(error.message);
+    setLoading(false);
+  };
+
+  // Create a new user
+  const onSignUpPress = async () => {
+    setLoading(true);
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+
+    if (error) Alert.alert(error.message);
+    if (!session) Alert.alert('Please check your inbox for email verification!');
+
+    setLoading(false);
+  };
+
   return (
-    <Box
-      flexDirection="column"
-      borderWidth={1}
-      borderColor="$borderDark700"
-      $web-flex={1}
-      m="$2"
-      p="$4"
-      rounded="$md"
-    >
-      <Box alignItems="center" display="flex" flexDirection="row">
-        <Text>
-          <IconSvg />
-        </Text>
-        <Text fontSize={22} color="$white" fontWeight="500" ml="$2">
-          {name}
-        </Text>
-      </Box>
-      <Text color="$textDark400" mt="$2">
-        {desc}
-      </Text>
-    </Box>
+    <View style={styles.container}>
+      {loading && (
+        <View
+          style={{
+            ...StyleSheet.absoluteFillObject,
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1,
+            elevation: 1,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            gap: 10,
+          }}>
+          <ActivityIndicator size="large" color="#fff" />
+          <Text style={{ color: '#fff', fontSize: 20 }}>Loading...</Text>
+        </View>
+      )}
+
+      <Text style={styles.header}>Challenge Betz</Text>
+
+      <TextInput
+        autoCapitalize="none"
+        placeholder="john@doe.com"
+        value={email}
+        onChangeText={setEmail}
+        style={styles.inputField}
+      />
+      <TextInput
+        placeholder="password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+        style={styles.inputField}
+      />
+
+      <TouchableOpacity onPress={onSignInPress} style={styles.button}>
+        <Text style={{ color: '#fff' }}>Sign in</Text>
+      </TouchableOpacity>
+      <Button onPress={onSignUpPress} title="Create Account" color={'#fff'}></Button>
+      <View style={{ alignItems: 'center', marginTop: 10, gap: 10 }}>
+        <AppleAuth />
+      </View>
+    </View>
   );
 };
 
-export default function Home() {
-  return (
-    <Box flex={1} backgroundColor="$black">
-      <ScrollView
-        style={{ height: "100%" }}
-        contentContainerStyle={{ flexGrow: 1 }}
-      >
-        <Box
-          position="absolute"
-          $base-h={500}
-          $base-w={500}
-          $lg-h={500}
-          $lg-w={500}
-        >
-          <Gradient />
-        </Box>
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 200,
+    padding: 20,
+    backgroundColor: '#151515',
+  },
+  header: {
+    fontSize: 30,
+    textAlign: 'center',
+    margin: 50,
+    color: '#fff',
+  },
+  inputField: {
+    marginVertical: 4,
+    height: 50,
+    borderWidth: 1,
+    borderColor: '#2b825b',
+    borderRadius: 4,
+    padding: 10,
+    color: '#fff',
+    backgroundColor: '#363636',
+  },
+  button: {
+    marginVertical: 15,
+    alignItems: 'center',
+    backgroundColor: '#2b825b',
+    padding: 12,
+    borderRadius: 4,
+  },
+});
 
-        <Box
-          height="60%"
-          $base-my="$16"
-          $base-mx="$5"
-          $base-height="80%"
-          $lg-my="$24"
-          $lg-mx="$5"
-          justifyContent="space-between"
-        >
-          <HStack justifyContent="space-between" marginHorizontal="$10">
-            <Box
-              bg="#64748B33"
-              py="$2"
-              px="$6"
-              rounded="$full"
-              alignItems="center"
-              marginTop={20}
-              $base-flexDirection="column"
-              $sm-flexDirection="row"
-              $md-flexDirection="flex-start"
-            >
-              <Text color="$white" fontWeight="$normal">
-                Get started by editing
-              </Text>
-              <Text color="$white" fontWeight="$medium" ml="$2">
-                app/index.tsx
-              </Text>
-            </Box>
-            <Link href="/tabs/">
-              <Box
-                bg="#64748B33"
-                rounded="$full"
-                alignItems="center"
-                py="$2"
-                px="$6"
-                marginTop="$5"
-                $base-flexDirection="column"
-                $sm-flexDirection="ro"
-                $md-flexDirection="flex-end"
-              >
-                <Text color="$white" fontWeight="$normal">
-                  Explore Tab Navigation
-                </Text>
-              </Box>
-            </Link>
-          </HStack>
-
-          <Box justifyContent="center" alignItems="center">
-            <Logo />
-          </Box>
-
-          <Box $base-flexDirection="column" $md-flexDirection="row">
-            <FeatureCard
-              iconSvg={DocumentData}
-              name="Docs"
-              desc="Find in-depth information about gluestack features and API."
-            />
-            <FeatureCard
-              iconSvg={LightBulbPerson}
-              name="Learn"
-              desc="Learn about gluestack in an interactive course with quizzes!"
-            />
-            <FeatureCard
-              iconSvg={Rocket}
-              name="Deploy"
-              desc="Instantly drop your gluestack site to a shareable URL with vercel."
-            />
-          </Box>
-        </Box>
-      </ScrollView>
-    </Box>
-  );
-}
+export default Login;
