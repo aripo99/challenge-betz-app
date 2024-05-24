@@ -6,12 +6,14 @@ const challenges = [
     {
         id: 1,
         name: 'Go to the gym',
-        description: 'It only counts if it\'s more than 30 minutes'
+        description: 'It only counts if it\'s more than 30 minutes',
+        isCompleted: true
     },
     {
         id: 2,
         name: 'Read',
-        description: 'Read for at least 30 minutes'
+        description: 'Read for at least 30 minutes',
+        isCompleted: false
     }
 ]
 
