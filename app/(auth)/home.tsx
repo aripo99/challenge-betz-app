@@ -1,4 +1,4 @@
-import { Button, ButtonText, Card, Heading, Text } from "@gluestack-ui/themed";
+import { Button, ButtonText, Card, Heading, ScrollView, Text } from "@gluestack-ui/themed";
 import { Link } from "expo-router";
 import { Pressable } from "react-native";
 import { useEffect, useState } from "react";
@@ -16,7 +16,6 @@ export default function Home() {
     const [loading, setLoading] = useState(false);
     const [challenges, setChallenges] = useState([]);
 
-    // Load todos on start
     useEffect(() => {
         loadChallenges();
     }, []);
@@ -61,40 +60,42 @@ export default function Home() {
 
     return (
         <>
-            <Text m="$4" style={{ fontSize: 24, textAlign: 'center', color: '#fff' }}>
-                Your Challenges
-            </Text>
+            <ScrollView>
+                <Text m="$4" style={{ fontSize: 24, textAlign: 'center', color: '#fff' }}>
+                    Your Challenges
+                </Text>
 
-            {challenges.map(challenge => (
-                <Link key={challenge.challenge_id} href={`/challenge/${challenge.id}`} asChild>
-                    <Pressable>
-                        <Card size="md" variant="outline" m="$3">
-                            <Heading mb="$1" size="md">
-                                {challenge.challenge_name}
-                            </Heading>
-                            <Text size="sm">{challenge.challenge_description}</Text>
-                        </Card>
-                    </Pressable>
-                </Link>
-            ))}
+                {challenges.map(challenge => (
+                    <Link key={challenge.challenge_id} href={`/challenge/${challenge.id}`} asChild>
+                        <Pressable>
+                            <Card size="md" variant="outline" m="$3">
+                                <Heading mb="$1" size="md">
+                                    {challenge.challenge_name}
+                                </Heading>
+                                <Text size="sm">{challenge.challenge_description}</Text>
+                            </Card>
+                        </Pressable>
+                    </Link>
+                ))}
 
-            <Button
-                size="md"
-                variant="outline"
-                action="primary"
-                m="$3"
-                onPress={addChallenge}
-            >
-                <ButtonText>Create</ButtonText>
-            </Button>
-            <Button
-                size="md"
-                variant="outline"
-                action="primary"
-                mx="$3"
-            >
-                <ButtonText>Join</ButtonText>
-            </Button>
+                <Button
+                    size="md"
+                    variant="outline"
+                    action="primary"
+                    m="$3"
+                    onPress={addChallenge}
+                >
+                    <ButtonText>Create</ButtonText>
+                </Button>
+                <Button
+                    size="md"
+                    variant="outline"
+                    action="primary"
+                    mx="$3"
+                >
+                    <ButtonText>Join</ButtonText>
+                </Button>
+            </ScrollView >
         </>
     )
 }
