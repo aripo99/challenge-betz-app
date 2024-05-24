@@ -15,8 +15,6 @@ interface Challenge {
 }
 
 export default function Home() {
-    const [challenge, setChallenge] = useState('');
-    const [loading, setLoading] = useState(false);
     const [challenges, setChallenges] = useState([]);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showJoinModal, setShowJoinModal] = useState(false);

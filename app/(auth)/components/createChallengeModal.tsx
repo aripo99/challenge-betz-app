@@ -1,5 +1,7 @@
 import { Button, ButtonText, Modal, Icon, Input, InputField, CloseIcon, ModalBackdrop, ModalHeader, ModalContent, ModalFooter, ModalCloseButton, ModalBody, Heading, Text } from "@gluestack-ui/themed";
 import { supabase } from '@/utils/supabase';
+import { useState } from "react";
+import uuid from 'react-native-uuid';
 
 interface CreateChallengeModalProps {
     showCreateModal: boolean;
@@ -10,20 +12,21 @@ interface CreateChallengeModalProps {
 }
 
 export default function CreateChallengeModal({ showCreateModal, setShowCreateModal, ref, setChallenges, challenges }: CreateChallengeModalProps) {
+    const [challengeName, setChallengeName] = useState('');
+    const [challengeDescription, setChallengeDescription] = useState('');
 
     const addChallenge = async () => {
         const {
             data: { user: User },
         } = await supabase.auth.getUser();
 
-        console.log(User);
         const newChallenge = {
             created_by: User?.id,
-            challenge_name: 'temp1',
-            challenge_description: 'temp1',
+            challenge_name: challengeName,
+            challenge_description: challengeDescription,
             challenge_start_date: new Date(),
             challenge_end_date: new Date(),
-            password: '123',
+            password: uuid.v4(),
         };
 
         const { data: challenge, error } = await supabase.from('challenges').insert(newChallenge).select('*').single();
@@ -59,10 +62,18 @@ export default function CreateChallengeModal({ showCreateModal, setShowCreateMod
                 </ModalHeader>
                 <ModalBody>
                     <Input my="$3">
-                        <InputField placeholder="Enter challenge title here" />
+                        <InputField
+                            placeholder="Enter challenge title here"
+                            value={challengeName}
+                            onChangeText={setChallengeName}
+                        />
                     </Input>
                     <Input>
-                        <InputField placeholder="Enter challenge description here" />
+                        <InputField
+                            placeholder="Enter challenge description here"
+                            value={challengeDescription}
+                            onChangeText={setChallengeDescription}
+                        />
                     </Input>
                 </ModalBody>
                 <ModalFooter>
