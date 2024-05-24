@@ -26,14 +26,17 @@ export default function Home() {
 
     async function loadChallenges() {
         const {
+            data: { user: User },
+        } = await supabase.auth.getUser();
+
+        const {
             data: challenges,
             error,
-        } = await supabase.from('challenges').select('*');
+        } = await supabase.from('challenges').select('*').eq('created_by', User?.id);
 
         if (error) {
             console.error('Error loading challenges:', error.message);
         } else {
-            console.log(challenges);
             setChallenges(challenges);
         }
     }

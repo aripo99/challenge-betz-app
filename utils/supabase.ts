@@ -4,9 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 import { AppState } from 'react-native';
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-console.log('supabaseUrl', supabaseUrl);
 const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
-console.log('supabaseAnonKey', supabaseAnonKey);
 
 export const supabase = createClient(supabaseUrl!, supabaseAnonKey!, {
     auth: {
@@ -23,8 +21,6 @@ export const supabase = createClient(supabaseUrl!, supabaseAnonKey!, {
 // `SIGNED_OUT` event if the user's session is terminated. This should
 // only be registered once.
 AppState.addEventListener('change', (state) => {
-    console.log('AppState', state);
-
     if (state === 'active') {
         supabase.auth.startAutoRefresh();
     } else {
