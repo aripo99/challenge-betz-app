@@ -29,6 +29,7 @@ export default function CreateChallengeModal({ showCreateModal, setShowCreateMod
             password: uuid.v4(),
         };
 
+        // TODO: These should be in a transaction
         const { data: challenge, error } = await supabase.from('challenges').insert(newChallenge).select('*').single();
         if (error) {
             console.log('Error inserting challenge:', error.message);
