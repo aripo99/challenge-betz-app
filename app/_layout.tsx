@@ -52,7 +52,7 @@ export default function RootLayout() {
 
   return (
     <GluestackUIProvider config={config}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={DarkTheme}>
         <Slot />
       </ThemeProvider>
     </GluestackUIProvider>
