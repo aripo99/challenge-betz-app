@@ -50,7 +50,7 @@ export default function Home() {
             password: '123',
         };
 
-        const { data: challenge, error } = await supabase.from('challenges').insert(newChallenge).single();
+        const { data: challenge, error } = await supabase.from('challenges').insert(newChallenge).select('*').single();
         if (error) {
             console.log('Error inserting challenge:', error.message);
         }
