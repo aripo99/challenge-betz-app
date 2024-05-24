@@ -1,9 +1,10 @@
-import { Button, ButtonText, Card, Modal, Icon, CloseIcon, ModalBackdrop, ModalHeader, ModalContent, ModalFooter, ModalCloseButton, ModalBody, Heading, ScrollView, Text } from "@gluestack-ui/themed";
+import { Button, ButtonText, Card, Heading, ScrollView, Text } from "@gluestack-ui/themed";
 import { Link } from "expo-router";
 import { Pressable } from "react-native";
 import { useEffect, useState } from "react";
 import { supabase } from '@/utils/supabase';
 import React from 'react';
+import CreateChallengeModal from "./components/createChallengeModal";
 
 interface Challenge {
     id: number;
@@ -81,53 +82,8 @@ export default function Home() {
                     </Link>
                 ))}
 
-                <Modal
-                    isOpen={showCreateModal}
-                    onClose={() => {
-                        setShowCreateModal(false)
-                    }}
-                    finalFocusRef={ref}
-                >
-                    <ModalBackdrop />
-                    <ModalContent>
-                        <ModalHeader>
-                            <Heading size="lg">Engage with Modals</Heading>
-                            <ModalCloseButton>
-                                <Icon as={CloseIcon} />
-                            </ModalCloseButton>
-                        </ModalHeader>
-                        <ModalBody>
-                            <Text>
-                                Elevate user interactions with our versatile modals. Seamlessly
-                                integrate notifications, forms, and media displays. Make an impact
-                                effortlessly.
-                            </Text>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                action="secondary"
-                                mr="$3"
-                                onPress={() => {
-                                    setShowCreateModal(false)
-                                }}
-                            >
-                                <ButtonText>Cancel</ButtonText>
-                            </Button>
-                            <Button
-                                size="sm"
-                                action="positive"
-                                borderWidth="$0"
-                                onPress={() => {
-                                    setShowCreateModal(false)
-                                }}
-                            >
-                                <ButtonText>Explore</ButtonText>
-                            </Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
+                <CreateChallengeModal showCreateModal={showCreateModal} setShowCreateModal={setShowCreateModal} ref={ref} />
+
                 <Button
                     size="md"
                     variant="outline"
