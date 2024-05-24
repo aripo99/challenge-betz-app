@@ -1,4 +1,4 @@
-import { Button, ButtonText, Modal, Icon, CloseIcon, ModalBackdrop, ModalHeader, ModalContent, ModalFooter, ModalCloseButton, ModalBody, Heading, Text } from "@gluestack-ui/themed";
+import { Button, ButtonText, Modal, Icon, Input, InputField, CloseIcon, ModalBackdrop, ModalHeader, ModalContent, ModalFooter, ModalCloseButton, ModalBody, Heading, Text } from "@gluestack-ui/themed";
 
 interface CreateChallengeModalProps {
     showCreateModal: boolean;
@@ -18,17 +18,18 @@ export default function CreateChallengeModal({ showCreateModal, setShowCreateMod
             <ModalBackdrop />
             <ModalContent>
                 <ModalHeader>
-                    <Heading size="lg">Engage with Modals</Heading>
+                    <Heading size="lg">Create a challenge</Heading>
                     <ModalCloseButton>
                         <Icon as={CloseIcon} />
                     </ModalCloseButton>
                 </ModalHeader>
                 <ModalBody>
-                    <Text>
-                        Elevate user interactions with our versatile modals. Seamlessly
-                        integrate notifications, forms, and media displays. Make an impact
-                        effortlessly.
-                    </Text>
+                    <Input my="$3">
+                        <InputField placeholder="Enter challenge title here" />
+                    </Input>
+                    <Input>
+                        <InputField placeholder="Enter challenge description here" />
+                    </Input>
                 </ModalBody>
                 <ModalFooter>
                     <Button
@@ -50,7 +51,7 @@ export default function CreateChallengeModal({ showCreateModal, setShowCreateMod
                             setShowCreateModal(false)
                         }}
                     >
-                        <ButtonText>Explore</ButtonText>
+                        <ButtonText>Create</ButtonText>
                     </Button>
                 </ModalFooter>
             </ModalContent>
