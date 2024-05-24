@@ -1,12 +1,46 @@
 import { Button, ButtonText, Modal, Icon, Input, InputField, CloseIcon, ModalBackdrop, ModalHeader, ModalContent, ModalFooter, ModalCloseButton, ModalBody, Heading, Text } from "@gluestack-ui/themed";
+import { supabase } from '@/utils/supabase';
 
 interface CreateChallengeModalProps {
     showCreateModal: boolean;
     setShowCreateModal: (showCreateModal: boolean) => void;
     ref: React.RefObject<HTMLDivElement>;
+    setChallenges: (challenges: any) => void;
+    challenges: any[];
 }
 
-export default function CreateChallengeModal({ showCreateModal, setShowCreateModal, ref }: CreateChallengeModalProps) {
+export default function CreateChallengeModal({ showCreateModal, setShowCreateModal, ref, setChallenges, challenges }: CreateChallengeModalProps) {
+
+    const addChallenge = async () => {
+        const {
+            data: { user: User },
+        } = await supabase.auth.getUser();
+
+        console.log(User);
+        const newChallenge = {
+            created_by: User?.id,
+            challenge_name: 'temp1',
+            challenge_description: 'temp1',
+            challenge_start_date: new Date(),
+            challenge_end_date: new Date(),
+            password: '123',
+        };
+
+        const { data: challenge, error } = await supabase.from('challenges').insert(newChallenge).select('*').single();
+        if (error) {
+            console.log('Error inserting challenge:', error.message);
+        }
+        else {
+            setChallenges([...challenges, challenge]);
+        }
+    };
+
+    const handleCreateChallenge = () => {
+        addChallenge();
+        setShowCreateModal(false);
+    }
+
+
     return (
         <Modal
             isOpen={showCreateModal}
@@ -47,9 +81,7 @@ export default function CreateChallengeModal({ showCreateModal, setShowCreateMod
                         size="sm"
                         action="positive"
                         borderWidth="$0"
-                        onPress={() => {
-                            setShowCreateModal(false)
-                        }}
+                        onPress={handleCreateChallenge}
                     >
                         <ButtonText>Create</ButtonText>
                     </Button>

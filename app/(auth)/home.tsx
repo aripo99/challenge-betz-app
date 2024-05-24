@@ -40,30 +40,6 @@ export default function Home() {
         }
     }
 
-    const addChallenge = async () => {
-        const {
-            data: { user: User },
-        } = await supabase.auth.getUser();
-
-        console.log(User);
-        const newChallenge = {
-            created_by: User?.id,
-            challenge_name: 'temp' || challenge.name,
-            challenge_description: 'temp' || challenge.description,
-            challenge_start_date: new Date(),
-            challenge_end_date: new Date(),
-            password: '123',
-        };
-
-        const { data: challenge, error } = await supabase.from('challenges').insert(newChallenge).select('*').single();
-        if (error) {
-            console.log('Error inserting challenge:', error.message);
-        }
-        else {
-            setChallenges([...challenges, challenge]);
-        }
-    };
-
     return (
         <>
             <ScrollView>
@@ -84,8 +60,8 @@ export default function Home() {
                     </Link>
                 ))}
 
-                <CreateChallengeModal showCreateModal={showCreateModal} setShowCreateModal={setShowCreateModal} ref={ref} />
-                <JoinChallengeModal showJoinModal={showJoinModal} setShowJoinModal={setShowJoinModal} ref={ref} />
+                <CreateChallengeModal showCreateModal={showCreateModal} setShowCreateModal={setShowCreateModal} ref={ref} setChallenges={setChallenges} challenges={challenges} />
+                <JoinChallengeModal showJoinModal={showJoinModal} setShowJoinModal={setShowJoinModal} ref={ref} setChallenges={setChallenges} />
 
                 <Button
                     size="md"

@@ -4,9 +4,10 @@ interface JoinChallengeModalProps {
     showJoinModal: boolean;
     setShowJoinModal: (showJoinModal: boolean) => void;
     ref: React.RefObject<HTMLDivElement>;
+    setChallenges: (challenges: any) => void;
 }
 
-export default function JoinChallengeModal({ showJoinModal, setShowJoinModal, ref }: JoinChallengeModalProps) {
+export default function JoinChallengeModal({ showJoinModal, setShowJoinModal, ref, setChallenges }: JoinChallengeModalProps) {
     return (
         <Modal
             isOpen={showJoinModal}
