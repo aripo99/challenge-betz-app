@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { supabase } from '@/utils/supabase';
 import React from 'react';
 import CreateChallengeModal from "./components/createChallengeModal";
+import JoinChallengeModal from "./components/joinChallengeModal";
 
 interface Challenge {
     id: number;
@@ -17,8 +18,9 @@ export default function Home() {
     const [challenge, setChallenge] = useState('');
     const [loading, setLoading] = useState(false);
     const [challenges, setChallenges] = useState([]);
-    const [showCreateModal, setShowCreateModal] = useState(false)
-    const ref = React.useRef(null)
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showJoinModal, setShowJoinModal] = useState(false);
+    const ref = React.useRef(null);
 
     useEffect(() => {
         loadChallenges();
@@ -70,7 +72,7 @@ export default function Home() {
                 </Text>
 
                 {challenges.map(challenge => (
-                    <Link key={challenge.challenge_id} href={`/challenge/${challenge.id}`} asChild>
+                    <Link key={challenge.challenge_id} href={`/challenge/${challenge.challenge_id}`} asChild>
                         <Pressable>
                             <Card size="md" variant="outline" m="$3">
                                 <Heading mb="$1" size="md">
@@ -83,6 +85,7 @@ export default function Home() {
                 ))}
 
                 <CreateChallengeModal showCreateModal={showCreateModal} setShowCreateModal={setShowCreateModal} ref={ref} />
+                <JoinChallengeModal showJoinModal={showJoinModal} setShowJoinModal={setShowJoinModal} ref={ref} />
 
                 <Button
                     size="md"
@@ -98,6 +101,8 @@ export default function Home() {
                     variant="outline"
                     action="primary"
                     mx="$3"
+                    mb="$6"
+                    onPress={() => setShowJoinModal(true)}
                 >
                     <ButtonText>Join</ButtonText>
                 </Button>
