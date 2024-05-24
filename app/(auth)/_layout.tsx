@@ -1,9 +1,10 @@
-import { Tabs } from 'expo-router';
+import { Stack } from 'expo-router';
 
 export default function Layout() {
     return (
-        <Tabs>
-            <Tabs.Screen name="home" options={{ title: 'Challenge Betz' }} />
-        </Tabs>
+        <Stack>
+            <Stack.Screen name="home" />
+            <Stack.Screen name="challenge/[id]" />
+        </Stack>
     )
 }
