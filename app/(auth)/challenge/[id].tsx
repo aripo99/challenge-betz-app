@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { supabase } from '@/utils/supabase';
 import { Table, Row, Rows } from 'react-native-table-component';
-import { Box, Text } from '@gluestack-ui/themed';
+import { ScrollView, Box, Text } from '@gluestack-ui/themed';
 
 interface UserChallenge {
     challenge_id: number;
@@ -14,7 +14,7 @@ interface UserChallenge {
 }
 
 export default function Challenge() {
-    const { id } = useLocalSearchParams();
+    const { id, challengeName, challengeDescription } = useLocalSearchParams();
     const [userChallenges, setUserChallenges] = useState<UserChallenge[]>([]);
 
     useEffect(() => {
@@ -29,7 +29,6 @@ export default function Challenge() {
         if (error) {
             console.error('Error loading challenges:', error.message);
         } else {
-            console.log(data);
             setUserChallenges(assignRanks(data));
         }
     }
@@ -56,9 +55,10 @@ export default function Challenge() {
     const tableData = userChallenges.map(item => [item.rank, item.user_id, item.progress, item.streak]);
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView p="$4">
             <Box>
-                <Text color="white" mb="$4" pl="$4">Challenge {id}</Text>
+                <Text color="white" mb="$4" pl="$4">{challengeName}</Text>
+                <Text pl="$4">{challengeDescription}</Text>
                 <Box bg="gray.800" p="$4">
                     <Table borderStyle={styles.tableBorder}>
                         <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
@@ -71,11 +71,6 @@ export default function Challenge() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#121212',
-        padding: 20,
-    },
     tableBorder: {
         borderWidth: 1,
         borderColor: '#444',

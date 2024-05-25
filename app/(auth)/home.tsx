@@ -49,7 +49,7 @@ export default function Home() {
                 </Text>
 
                 {challenges.map(challenge => (
-                    <Link key={challenge.challenge_id} href={`/challenge/${challenge.challenge_id}`} asChild>
+                    <Link key={challenge.challenge_id} href={`/challenge/${challenge.challenge_id}?challengeName=${challenge.challenge_name}&challengeDescription=${challenge.challenge_description}`} asChild>
                         <Pressable>
                             <Card size="md" variant="outline" m="$3">
                                 <Heading mb="$1" size="md">
