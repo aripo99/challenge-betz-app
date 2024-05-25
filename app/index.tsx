@@ -4,16 +4,20 @@ import {
   Text,
   Input,
   InputField,
+  Pressable,
+  HStack,
 } from '@gluestack-ui/themed';
-import { Alert, TextInput, StyleSheet, ActivityIndicator } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import React from 'react';
 import { supabase } from '@/utils/supabase';
 
 const Login = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [onSignUp, setOnSignUp] = useState(false);
 
   // Sign in with email and password
   const onSignInPress = async () => {
@@ -47,23 +51,25 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
-      {loading && (
-        <View
-          style={{
-            ...StyleSheet.absoluteFillObject,
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1,
-            elevation: 1,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            gap: 10,
-          }}>
-          <ActivityIndicator size="large" color="#fff" />
-          <Text style={{ color: '#fff', fontSize: 20 }}>Loading...</Text>
-        </View>
-      )}
+      <Text textAlign='center' m='$8' color='#fff' fontSize={30}>{onSignUp ? 'Sign Up' : 'Sign In'}</Text>
 
-      <Text textAlign='center' m='$8' color='#fff' fontSize={30}>Sign In</Text>
+      {onSignUp && (
+        <>
+          <Text color='#fff'> Name </Text>
+          <Input
+            variant='outline'
+            size='xl'
+            my='$2'
+          >
+            <InputField
+              value={name}
+              onChangeText={setName}
+              color='#fff'
+              type='text'
+            />
+          </Input>
+        </>
+      )}
 
       <Text color='#fff'> Email </Text>
       <Input
@@ -97,7 +103,26 @@ const Login = () => {
           Sign in
         </Text>
       </Button>
-      <Text color='#fff'> Don't have an account yet? Sign up</Text>
+
+      <HStack>
+        <Text color='#fff' mt='$2'>
+          {onSignUp ? (
+            <>
+              Already have an account?{' '}
+              <Pressable onPress={() => setOnSignUp(false)}>
+                <Text color='#fff' underline mt='$2'>Sign in</Text>
+              </Pressable>
+            </>
+          ) : (
+            <>
+              Don't have an account yet?{' '}
+              <Pressable onPress={() => setOnSignUp(true)}>
+                <Text color='#fff' underline>Sign up</Text>
+              </Pressable>
+            </>
+          )}
+        </Text>
+      </HStack>
     </View>
   );
 };
