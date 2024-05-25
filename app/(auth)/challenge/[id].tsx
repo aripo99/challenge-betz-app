@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { supabase } from '@/utils/supabase';
 import { Table, Row, Rows } from 'react-native-table-component';
-import { ScrollView, Box, Text } from '@gluestack-ui/themed';
+import { Box, Text } from '@gluestack-ui/themed';
 
 export default function Challenge() {
     const { id } = useLocalSearchParams();
@@ -21,23 +21,41 @@ export default function Challenge() {
         if (error) {
             console.error('Error loading challenges:', error.message);
         } else {
-            setUserChallenges(data);
+            console.log(data);
+            setUserChallenges(assignRanks(data));
         }
     }
 
-    const tableHead = ['User ID', 'Progress', 'Streak'];
-    const tableData = userChallenges.map(item => [item.user_id, item.progress, item.streak]);
+    function assignRanks(challenges: any[]) {
+        // Sort challenges by progress in descending order
+        const sortedChallenges = [...challenges].sort((a, b) => b.progress - a.progress);
+
+        // Assign ranks
+        let rank = 1;
+        for (let i = 0; i < sortedChallenges.length; i++) {
+            if (i > 0 && sortedChallenges[i].progress === sortedChallenges[i - 1].progress) {
+                sortedChallenges[i].rank = '-';
+            } else {
+                sortedChallenges[i].rank = rank;
+                rank = i + 1 + 1;
+            }
+        }
+
+        return sortedChallenges;
+    }
+
+    const tableHead = ['Rank', 'User ID', 'Progress', 'Streak'];
+    const tableData = userChallenges.map(item => [item.rank, item.user_id, item.progress, item.streak]);
 
     return (
         <ScrollView style={styles.container}>
             <Box>
-                <Text fontSize="xl" color="white" mb="4">Challenge {id}</Text>
-                <Box bg="gray.800" borderRadius="md" p="4">
+                <Text color="white" mb="$4" pl="$4">Challenge {id}</Text>
+                <Box bg="gray.800" p="$4">
                     <Table borderStyle={styles.tableBorder}>
                         <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
                         <Rows data={tableData} textStyle={styles.text} />
                     </Table>
-                    <Text mt="2" color="gray.400" textAlign="center">Challenge Progress Table</Text>
                 </Box>
             </Box>
         </ScrollView>
