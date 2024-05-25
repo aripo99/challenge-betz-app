@@ -5,9 +5,17 @@ import { supabase } from '@/utils/supabase';
 import { Table, Row, Rows } from 'react-native-table-component';
 import { Box, Text } from '@gluestack-ui/themed';
 
+interface UserChallenge {
+    challenge_id: number;
+    user_id: string;
+    progress: number;
+    streak: boolean;
+    rank: number | '-';
+}
+
 export default function Challenge() {
     const { id } = useLocalSearchParams();
-    const [userChallenges, setUserChallenges] = useState([]);
+    const [userChallenges, setUserChallenges] = useState<UserChallenge[]>([]);
 
     useEffect(() => {
         getUserChallenges();
@@ -26,7 +34,7 @@ export default function Challenge() {
         }
     }
 
-    function assignRanks(challenges: any[]) {
+    function assignRanks(challenges: UserChallenge[]) {
         // Sort challenges by progress in descending order
         const sortedChallenges = [...challenges].sort((a, b) => b.progress - a.progress);
 

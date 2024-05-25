@@ -1,10 +1,11 @@
-import { Button, ButtonText, Modal, Icon, Input, InputField, CloseIcon, ModalBackdrop, ModalHeader, ModalContent, ModalFooter, ModalCloseButton, ModalBody, Heading, Text } from "@gluestack-ui/themed";
+import { Button, ButtonText, Modal, Icon, Input, InputField, CloseIcon, ModalBackdrop, ModalHeader, ModalContent, ModalFooter, ModalCloseButton, ModalBody, Heading } from "@gluestack-ui/themed";
+import { Challenge } from "../home";
 
 interface JoinChallengeModalProps {
     showJoinModal: boolean;
     setShowJoinModal: (showJoinModal: boolean) => void;
     ref: React.RefObject<HTMLDivElement>;
-    setChallenges: (challenges: any) => void;
+    setChallenges: (challenges: Challenge[]) => void;
 }
 
 export default function JoinChallengeModal({ showJoinModal, setShowJoinModal, ref, setChallenges }: JoinChallengeModalProps) {

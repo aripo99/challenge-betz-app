@@ -1,14 +1,15 @@
-import { Button, ButtonText, Modal, Icon, Input, InputField, CloseIcon, ModalBackdrop, ModalHeader, ModalContent, ModalFooter, ModalCloseButton, ModalBody, Heading, Text } from "@gluestack-ui/themed";
+import { Button, ButtonText, Modal, Icon, Input, InputField, CloseIcon, ModalBackdrop, ModalHeader, ModalContent, ModalFooter, ModalCloseButton, ModalBody, Heading } from "@gluestack-ui/themed";
 import { supabase } from '@/utils/supabase';
 import { useState } from "react";
 import uuid from 'react-native-uuid';
+import { Challenge } from "../home";
 
 interface CreateChallengeModalProps {
     showCreateModal: boolean;
     setShowCreateModal: (showCreateModal: boolean) => void;
     ref: React.RefObject<HTMLDivElement>;
     setChallenges: (challenges: any) => void;
-    challenges: any[];
+    challenges: Challenge[];
 }
 
 export default function CreateChallengeModal({ showCreateModal, setShowCreateModal, ref, setChallenges, challenges }: CreateChallengeModalProps) {

@@ -7,15 +7,15 @@ import React from 'react';
 import CreateChallengeModal from "./components/createChallengeModal";
 import JoinChallengeModal from "./components/joinChallengeModal";
 
-interface Challenge {
-    id: number;
-    name: string;
-    description: string;
-    isCompleted: boolean;
+export interface Challenge {
+    challenge_id: number;
+    challenge_name: string;
+    challenge_description: string;
+    created_by: string;
 }
 
 export default function Home() {
-    const [challenges, setChallenges] = useState([]);
+    const [challenges, setChallenges] = useState<Challenge[]>([]);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showJoinModal, setShowJoinModal] = useState(false);
     const ref = React.useRef(null);
