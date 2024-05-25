@@ -98,11 +98,19 @@ const Login = () => {
         />
       </Input>
 
-      <Button onPress={onSignInPress} my="$3">
-        <Text color='#fff'>
-          Sign in
-        </Text>
-      </Button>
+      {onSignUp ? (
+        <Button onPress={onSignUpPress} my='$3'>
+          <Text color='#fff'>
+            Sign up
+          </Text>
+        </Button>
+      ) :
+        <Button onPress={onSignInPress} my="$3">
+          <Text color='#fff'>
+            Sign in
+          </Text>
+        </Button>
+      }
 
       <HStack>
         <Text color='#fff' mt='$2'>
