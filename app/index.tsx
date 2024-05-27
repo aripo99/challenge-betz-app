@@ -41,6 +41,7 @@ const Login = () => {
     } = await supabase.auth.signUp({
       email: email,
       password: password,
+      options: { data: { display_name: name } },
     });
 
     if (error) Alert.alert(error.message);
