@@ -1,4 +1,4 @@
-import { UserChallenge } from '../challenge/[id]'
+import { UserChallenge } from '../challenge/[id]';
 import React, { Component, PropsWithChildren } from 'react';
 import { Animated, StyleSheet, Text, View, I18nManager } from 'react-native';
 
@@ -22,18 +22,10 @@ export default class AppleStyleSwipeableRow extends Component<PropsWithChildren<
             inputRange: [0, 1],
             outputRange: [x, 0],
         });
-        const pressHandler = () => {
-            if (text === 'Done' || text === 'Undone') {
-                this.props.onComplete();
-            }
-            console.log(this.props);
-
-            this.close();
-        };
 
         return (
             <Animated.View style={{ flex: 1, transform: [{ translateX: trans }] }}>
-                <RectButton style={[styles.rightAction, { backgroundColor: color }]} onPress={pressHandler}>
+                <RectButton style={[styles.rightAction, { backgroundColor: color }]} onPress={this.props.onComplete}>
                     <Text style={styles.actionText}>{text}</Text>
                 </RectButton>
             </Animated.View>
@@ -58,8 +50,14 @@ export default class AppleStyleSwipeableRow extends Component<PropsWithChildren<
     private updateRef = (ref: Swipeable) => {
         this.swipeableRow = ref;
     };
+
     private close = () => {
         this.swipeableRow?.close();
+    };
+
+    private handleComplete = () => {
+        this.props.onComplete();
+        this.close();
     };
 
     render() {
@@ -69,8 +67,11 @@ export default class AppleStyleSwipeableRow extends Component<PropsWithChildren<
                 ref={this.updateRef}
                 friction={2}
                 enableTrackpadTwoFingerGesture
-                rightThreshold={40}
-                renderRightActions={this.renderRightActions}>
+                rightThreshold={160}
+                overshootRight={false}
+                renderRightActions={this.renderRightActions}
+                onSwipeableOpen={direction => { if (direction === 'right') this.handleComplete() }}
+            >
                 {children}
             </Swipeable>
         );
