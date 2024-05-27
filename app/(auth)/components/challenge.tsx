@@ -7,8 +7,7 @@ export function ChallengeCard({ challenge }: { challenge: Challenge }) {
     return (
         <Link key={challenge.challenge_id} href={`/challenge/${challenge.challenge_id}?challengeName=${challenge.challenge_name}&challengeDescription=${challenge.challenge_description}`} asChild>
             <AppleStyleSwipeableRow
-                onToggle={() => { console.log('toggle') }}
-                onDelete={() => { console.log('delete') }}
+                onComplete={() => { console.log('complete') }}
             >
                 <Pressable>
                     <Card size="md" variant="outline" m="$3">

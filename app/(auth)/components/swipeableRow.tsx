@@ -8,8 +8,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 interface Props {
     userChallenge?: UserChallenge;
-    onToggle: () => void;
-    onDelete: () => void;
+    onComplete: () => void;
 }
 
 export default class AppleStyleSwipeableRow extends Component<PropsWithChildren<Props>> {
@@ -25,9 +24,7 @@ export default class AppleStyleSwipeableRow extends Component<PropsWithChildren<
         });
         const pressHandler = () => {
             if (text === 'Done' || text === 'Undone') {
-                this.props.onToggle();
-            } else if (text === 'Delete') {
-                this.props.onDelete();
+                this.props.onComplete();
             }
             console.log(this.props);
 
@@ -52,9 +49,7 @@ export default class AppleStyleSwipeableRow extends Component<PropsWithChildren<
                 width: 160,
                 flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
             }}>
-            {/* {!this.props.todo.is_complete && this.renderRightAction('Done', '#2b825b', 160, progress)}
-            {this.props.todo.is_complete && this.renderRightAction('Undone', '#ffab00', 160, progress)} */}
-            {this.renderRightAction('Delete', '#dd2c00', 160, progress)}
+            {this.renderRightAction('Done', '#2b825b', 160, progress)}
         </View>
     );
 
