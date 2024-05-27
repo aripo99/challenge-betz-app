@@ -5,13 +5,14 @@ import { supabase } from '@/utils/supabase';
 import { Table, Row, Rows } from 'react-native-table-component';
 import { ScrollView, Box, Text, Button } from '@gluestack-ui/themed';
 
-interface UserChallenge {
+export interface UserChallenge {
     challenge_id: number;
     user_id: string;
     user_name: string;
     progress: number;
     streak: boolean;
     rank: number | '-';
+    last_updated_at: Date;
 }
 
 export default function Challenge() {
