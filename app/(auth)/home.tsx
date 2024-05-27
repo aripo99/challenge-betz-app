@@ -1,12 +1,12 @@
-import { Button, ButtonText, Card, Heading, ScrollView, Text } from "@gluestack-ui/themed";
+import { Button, ButtonText, ScrollView, Text } from "@gluestack-ui/themed";
 import { Link } from "expo-router";
-import { Pressable } from "react-native";
 import { useEffect, useState } from "react";
 import { supabase } from '@/utils/supabase';
 import React from 'react';
 import CreateChallengeModal from "./components/createChallengeModal";
 import JoinChallengeModal from "./components/joinChallengeModal";
 import { askNotificationPermission } from "@/utils/notifications";
+import { ChallengeCard } from "./components/challenge";
 
 export interface Challenge {
     challenge_id: number;
@@ -51,16 +51,7 @@ export default function Home() {
                 </Text>
 
                 {challenges.map(challenge => (
-                    <Link key={challenge.challenge_id} href={`/challenge/${challenge.challenge_id}?challengeName=${challenge.challenge_name}&challengeDescription=${challenge.challenge_description}`} asChild>
-                        <Pressable>
-                            <Card size="md" variant="outline" m="$3">
-                                <Heading mb="$1" size="md">
-                                    {challenge.challenge_name}
-                                </Heading>
-                                <Text size="sm">{challenge.challenge_description}</Text>
-                            </Card>
-                        </Pressable>
-                    </Link>
+                    <ChallengeCard challenge={challenge} />
                 ))}
 
                 <CreateChallengeModal showCreateModal={showCreateModal} setShowCreateModal={setShowCreateModal} ref={ref} setChallenges={setChallenges} challenges={challenges} />
