@@ -62,7 +62,7 @@ export default function Home() {
                 ))}
 
                 <CreateChallengeModal showCreateModal={showCreateModal} setShowCreateModal={setShowCreateModal} ref={ref} setChallenges={setChallenges} challenges={challenges} />
-                <JoinChallengeModal showJoinModal={showJoinModal} setShowJoinModal={setShowJoinModal} ref={ref} setChallenges={setChallenges} />
+                <JoinChallengeModal showJoinModal={showJoinModal} setShowJoinModal={setShowJoinModal} ref={ref} setChallenges={setChallenges} challenges={challenges} />
 
                 <Button
                     size="md"
