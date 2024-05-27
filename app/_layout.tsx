@@ -8,11 +8,21 @@ import { config } from "@gluestack-ui/config";
 import { supabase } from '../utils/supabase';
 import { Session } from '@supabase/supabase-js';
 import { Slot, useRouter, useSegments } from 'expo-router';
+import * as Notifications from 'expo-notifications';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
 
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from "expo-router";
+
 
 export default function RootLayout() {
   const [session, setSession] = useState<Session | null>(null);

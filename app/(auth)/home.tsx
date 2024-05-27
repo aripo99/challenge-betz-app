@@ -6,6 +6,7 @@ import { supabase } from '@/utils/supabase';
 import React from 'react';
 import CreateChallengeModal from "./components/createChallengeModal";
 import JoinChallengeModal from "./components/joinChallengeModal";
+import { askNotificationPermission } from "@/utils/notifications";
 
 export interface Challenge {
     challenge_id: number;
@@ -22,6 +23,7 @@ export default function Home() {
 
     useEffect(() => {
         loadChallenges();
+        askNotificationPermission();
     }, []);
 
     async function loadChallenges() {
