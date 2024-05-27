@@ -21,7 +21,14 @@ export async function askNotificationPermission() {
     let finalStatus = status;
 
     if (status !== 'granted') {
-        const { status: newStatus } = await Notifications.requestPermissionsAsync();
+        const { status: newStatus } = await Notifications.requestPermissionsAsync({
+            ios: {
+                allowAlert: true,
+                allowBadge: true,
+                allowSound: true,
+                allowAnnouncements: true,
+            },
+        });
         scheduleDailyNotification();
         finalStatus = newStatus;
     }
