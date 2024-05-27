@@ -4,9 +4,14 @@ import { Link } from 'expo-router'
 import AppleStyleSwipeableRow from './swipeableRow'
 import { supabase } from '@/utils/supabase'
 
-function convertUTCToPSTDateString(utcDateString: any) {
+function convertUTCToPSTDateString(utcDateString: string): string {
     const date = new Date(utcDateString);
-    return date.toLocaleString('en-US', { timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit' });
+    return new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Los_Angeles',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).format(date);
 }
 
 export function ChallengeCard({ challenge }: { challenge: Challenge }) {
@@ -16,18 +21,19 @@ export function ChallengeCard({ challenge }: { challenge: Challenge }) {
         if (challengeError) {
             console.error('Error loading user challenge:', challengeError.message);
         } else {
-            if (challengeData.last_updated_at === new Date().toDateString()) {
+            const lastUpdatedAt = convertUTCToPSTDateString(new Date(challengeData.last_updated_at).toDateString());
+            const today = convertUTCToPSTDateString(new Date().toDateString());
+            if (lastUpdatedAt === today) {
                 console.log('Already completed today')
                 return
             }
-            const yesterday = new Date() - 1000 * 60 * 60 * 24;
-            const streak = challengeData.last_updated_at === yesterday ? challengeData.streak + 1 : 1;
-            const { data: updatedChallenge, error: updateError } = await supabase.from("user_challenges").update({ progress: challengeData.progress + 1, streak: streak }).eq("user_id", User?.id || "").eq("challenge_id", challenge.challenge_id).single();
+            const yesterday = convertUTCToPSTDateString(new Date(new Date().setDate(new Date().getDate() - 1)).toDateString());
+            const streak = lastUpdatedAt === yesterday ? challengeData.streak + 1 : 1;
+            const { data: updatedChallenge, error: updateError } = await supabase.from("user_challenges").update({ progress: challengeData.progress + 1, streak: streak, last_updated_at: new Date() }).eq("user_id", User?.id || "").eq("challenge_id", challenge.challenge_id).single();
             if (updateError) {
                 console.error('Error updating user challenge:', updateError.message);
             }
         }
-        console.log('complete')
     }
 
     return (
