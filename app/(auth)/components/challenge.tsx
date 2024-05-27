@@ -5,10 +5,10 @@ import AppleStyleSwipeableRow from './swipeableRow'
 
 export function ChallengeCard({ challenge }: { challenge: Challenge }) {
     return (
-        <Link key={challenge.challenge_id} href={`/challenge/${challenge.challenge_id}?challengeName=${challenge.challenge_name}&challengeDescription=${challenge.challenge_description}`} asChild>
-            <AppleStyleSwipeableRow
-                onComplete={() => { console.log('complete') }}
-            >
+        <AppleStyleSwipeableRow
+            onComplete={() => { console.log('complete') }}
+        >
+            <Link key={challenge.challenge_id} href={`/challenge/${challenge.challenge_id}?challengeName=${challenge.challenge_name}&challengeDescription=${challenge.challenge_description}`} asChild>
                 <Pressable>
                     <Card size="md" variant="outline" m="$3">
                         <Heading mb="$1" size="md">
@@ -17,8 +17,8 @@ export function ChallengeCard({ challenge }: { challenge: Challenge }) {
                         <Text size="sm">{challenge.challenge_description}</Text>
                     </Card>
                 </Pressable>
-            </AppleStyleSwipeableRow>
-        </Link>
+            </Link>
+        </AppleStyleSwipeableRow>
 
     )
 }
