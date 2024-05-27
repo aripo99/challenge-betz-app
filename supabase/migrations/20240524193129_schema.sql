@@ -15,6 +15,7 @@ create table challenges (
 create table user_challenges (
     challenge_id bigint not null references public.challenges on delete cascade,
     user_id uuid not null references public.users on delete cascade,
+    user_name text not null,
     progress int not null default 0,
     last_updated_at timestamptz not null default now(),
     streak int not null default 0,

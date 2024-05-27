@@ -8,6 +8,7 @@ import { ScrollView, Box, Text } from '@gluestack-ui/themed';
 interface UserChallenge {
     challenge_id: number;
     user_id: string;
+    user_name: string;
     progress: number;
     streak: boolean;
     rank: number | '-';
@@ -51,8 +52,8 @@ export default function Challenge() {
         return sortedChallenges;
     }
 
-    const tableHead = ['Rank', 'User ID', 'Progress', 'Streak'];
-    const tableData = userChallenges.map(item => [item.rank, item.user_id, item.progress, item.streak]);
+    const tableHead = ['Rank', 'Name', 'Progress', 'Streak'];
+    const tableData = userChallenges.map(item => [item.rank, item.user_name, item.progress, item.streak]);
 
     return (
         <ScrollView p="$4">

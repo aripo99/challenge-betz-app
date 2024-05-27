@@ -23,7 +23,7 @@ export default function JoinChallengeModal({ showJoinModal, setShowJoinModal, re
             const {
                 data: { user: User },
             } = await supabase.auth.getUser();
-            const { error } = await supabase.from('user_challenges').insert({ user_id: User?.id, challenge_id: challenge.challenge_id });
+            const { error } = await supabase.from('user_challenges').insert({ user_id: User?.id, challenge_id: challenge.challenge_id, user_name: User?.user_metadata.display_name });
             if (error) {
                 console.log('Error inserting user challenge:', error.message);
             }
