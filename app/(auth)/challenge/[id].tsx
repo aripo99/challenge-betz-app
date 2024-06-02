@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { supabase } from '@/utils/supabase';
 import { Table, Row, Rows } from 'react-native-table-component';
-import { ScrollView, Box, Text, Button } from '@gluestack-ui/themed';
+import { ScrollView, Box, Text } from '@gluestack-ui/themed';
 
 export interface UserChallenge {
     challenge_id: number;
