@@ -3,6 +3,7 @@ import { Challenge } from '../home'
 import { Link } from 'expo-router'
 import AppleStyleSwipeableRow from './swipeableRow'
 import { supabase } from '@/utils/supabase'
+import { useState } from 'react'
 
 function convertUTCToPSTDateString(utcDateString: string): string {
     const date = new Date(utcDateString);
@@ -15,6 +16,7 @@ function convertUTCToPSTDateString(utcDateString: string): string {
 }
 
 export function ChallengeCard({ challenge }: { challenge: Challenge }) {
+    const [userChallenge, setUserChallenge] = useState<any>(null);
     const handleComplete = async () => {
         const { data: { user: User } } = await supabase.auth.getUser()
         const { data: challengeData, error: challengeError } = await supabase.from("user_challenges").select("*").eq("user_id", User?.id || "").eq("challenge_id", challenge.challenge_id).single();
@@ -29,7 +31,12 @@ export function ChallengeCard({ challenge }: { challenge: Challenge }) {
             }
             const yesterday = convertUTCToPSTDateString(new Date(new Date().setDate(new Date().getDate() - 1)).toDateString());
             const streak = lastUpdatedAt === yesterday ? challengeData.streak + 1 : 1;
-            const { data: updatedChallenge, error: updateError } = await supabase.from("user_challenges").update({ progress: challengeData.progress + 1, streak: streak, last_updated_at: new Date() }).eq("user_id", User?.id || "").eq("challenge_id", challenge.challenge_id).single();
+            const { data: updatedChallenge, error: updateError } = await supabase.from("user_challenges").update({ progress: challengeData.progress + 1, streak: streak, last_updated_at: new Date() }).eq("user_id", User?.id || "").eq("challenge_id", challenge.challenge_id).select("*").single();
+            if (updatedChallenge) {
+                updatedChallenge.isComplete = true;
+                setUserChallenge(updatedChallenge);
+                console.log('Challenge completed:', updatedChallenge);
+            }
             if (updateError) {
                 console.error('Error updating user challenge:', updateError.message);
             }
@@ -42,15 +49,14 @@ export function ChallengeCard({ challenge }: { challenge: Challenge }) {
         >
             <Link key={challenge.challenge_id} href={`/challenge/${challenge.challenge_id}?challengeName=${challenge.challenge_name}&challengeDescription=${challenge.challenge_description}`} asChild>
                 <Pressable>
-                    <Card size="md" variant="outline" m="$3">
-                        <Heading mb="$1" size="md">
+                    <Card size="md" variant="outline" m="$3" style={userChallenge?.isComplete ? { borderColor: '#004d00' } : {}}>
+                        <Heading mb="$1" size="md" color="white">
                             {challenge.challenge_name}
                         </Heading>
-                        <Text size="sm">{challenge.challenge_description}</Text>
+                        <Text size="sm" color="gray">{challenge.challenge_description}</Text>
                     </Card>
                 </Pressable>
             </Link>
         </AppleStyleSwipeableRow>
-
     )
 }
