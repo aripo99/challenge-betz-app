@@ -10,7 +10,12 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://qyrnnmaduivzynhavcev.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5cm5ubWFkdWl2enluaGF2Y2V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTY0Mzc2MjQsImV4cCI6MjAzMjAxMzYyNH0.GacLHhU5oTk9mi1sVY-edXNvteISQun-jqC2Fzlu30M"
+      }
+    }
   },
   "submit": {
     "production": {}
