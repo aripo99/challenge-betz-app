@@ -15,8 +15,8 @@ function convertUTCToPSTDateString(utcDateString: string): string {
     }).format(date);
 }
 
-export function ChallengeCard({ challenge }: { challenge: Challenge }) {
-    const [userChallenge, setUserChallenge] = useState<any>(null);
+export function ChallengeCard({ challenge }: { challenge: any }) {
+    const [userChallenge, setUserChallenge] = useState<any>(challenge);
     const handleComplete = async () => {
         const { data: { user: User } } = await supabase.auth.getUser()
         const { data: challengeData, error: challengeError } = await supabase.from("user_challenges").select("*").eq("user_id", User?.id || "").eq("challenge_id", challenge.challenge_id).single();
@@ -35,7 +35,6 @@ export function ChallengeCard({ challenge }: { challenge: Challenge }) {
             if (updatedChallenge) {
                 updatedChallenge.isComplete = true;
                 setUserChallenge(updatedChallenge);
-                console.log('Challenge completed:', updatedChallenge);
             }
             if (updateError) {
                 console.error('Error updating user challenge:', updateError.message);

@@ -14,8 +14,18 @@ export interface Challenge {
     created_by: string;
 }
 
+function convertUTCToPSTDateString(utcDateString: string): string {
+    const date = new Date(utcDateString);
+    return new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Los_Angeles',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).format(date);
+}
+
 export default function Home() {
-    const [challenges, setChallenges] = useState<Challenge[]>([]);
+    const [challenges, setChallenges] = useState<any[]>([]);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showJoinModal, setShowJoinModal] = useState(false);
     const ref = React.useRef(null);
@@ -31,14 +41,20 @@ export default function Home() {
         } = await supabase.auth.getUser();
 
         const {
-            data: challenges,
+            data: challengeData,
             error,
-        } = await supabase.from('challenges').select('*').eq('created_by', User?.id);
+        } = await supabase.from('challenges').select(`challenge_description, challenge_name, challenge_id, user_challenges(progress, streak, last_updated_at)`).eq('created_by', User?.id);
 
         if (error) {
             console.error('Error loading challenges:', error.message);
         } else {
-            setChallenges(challenges);
+            const today = convertUTCToPSTDateString(new Date().toDateString());
+            const updatedChallenges = challengeData?.map((challenge: any) => {
+                const lastUpdatedAt = convertUTCToPSTDateString(new Date(challenge.user_challenges[0].last_updated_at).toDateString());
+                challenge.isComplete = lastUpdatedAt === today;
+                return challenge;
+            }) || [];
+            setChallenges(updatedChallenges);
         }
     }
 
