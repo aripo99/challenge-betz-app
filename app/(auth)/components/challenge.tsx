@@ -17,7 +17,18 @@ function convertUTCToPSTDateString(utcDateString: string): string {
 
 export function ChallengeCard({ challenge }: { challenge: any }) {
     const [userChallenge, setUserChallenge] = useState<any>(challenge);
-    console.log('userChallenge', userChallenge);
+    const today = convertUTCToPSTDateString(new Date().toDateString());
+
+    const getStreak = () => {
+        const lastUpdatedAt = convertUTCToPSTDateString(new Date(userChallenge.last_updated_at || userChallenge.user_challenges[0].last_updated_at).toDateString());
+        const streak = userChallenge.streak || userChallenge.user_challenges[0].streak
+        if (lastUpdatedAt === today) {
+            return streak;
+        }
+        const yesterday = convertUTCToPSTDateString(new Date(new Date().setDate(new Date().getDate() - 1)).toDateString());
+        return lastUpdatedAt >= yesterday ? streak : 0;
+    }
+
     const handleComplete = async () => {
         const { data: { user: User } } = await supabase.auth.getUser()
         const { data: challengeData, error: challengeError } = await supabase.from("user_challenges").select("*").eq("user_id", User?.id || "").eq("challenge_id", challenge.challenge_id).single();
@@ -25,7 +36,6 @@ export function ChallengeCard({ challenge }: { challenge: any }) {
             console.error('Error loading user challenge:', challengeError.message);
         } else {
             const lastUpdatedAt = convertUTCToPSTDateString(new Date(challengeData.last_updated_at).toDateString());
-            const today = convertUTCToPSTDateString(new Date().toDateString());
             if (lastUpdatedAt === today) {
                 console.log('Already completed today')
                 return
@@ -58,6 +68,7 @@ export function ChallengeCard({ challenge }: { challenge: any }) {
                         </Text>
                         <HStack mr="$2" mt="$2">
                             <Text size="sm" mr="$2" style={styles.infoText}>Progress: {userChallenge.progress || userChallenge.user_challenges[0].progress}</Text>
+                            <Text size="sm" style={styles.infoText}>Streak: {getStreak()}</Text>
                         </HStack>
                     </Card>
                 </Pressable>
