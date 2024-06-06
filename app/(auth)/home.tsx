@@ -1,5 +1,4 @@
 import { Button, ButtonText, ScrollView, Text } from "@gluestack-ui/themed";
-import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import { supabase } from '@/utils/supabase';
 import React from 'react';
