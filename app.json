@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expo-router-v3",
-    "slug": "expo-router-v3",
+    "name": "Challenge Betz",
+    "slug": "challenge-betz",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -41,7 +41,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "ee0065ff-d0a7-4cea-b63a-e93a82f7f6be"
+        "projectId": "5ca77f45-9a49-4897-9973-710ecd21719c"
       }
     }
   }
