@@ -139,7 +139,7 @@ const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 200,
+    paddingTop: 130,
     padding: 20,
     backgroundColor: '#151515',
   },
