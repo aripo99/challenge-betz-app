@@ -36,7 +36,7 @@ export function ChallengeCard({ challenge }: { challenge: any }) {
             console.error('Error loading user challenge:', challengeError.message);
         } else {
             const lastUpdatedAt = convertUTCToPSTDateString(new Date(challengeData.last_updated_at).toDateString());
-            if (lastUpdatedAt === today) {
+            if (lastUpdatedAt === today && challengeData.progress > 0) {
                 console.log('Already completed today')
                 return
             }

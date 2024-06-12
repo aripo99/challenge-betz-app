@@ -51,7 +51,7 @@ export default function Home() {
             const today = convertUTCToPSTDateString(new Date().toDateString());
             const updatedChallenges = challengeData?.map((challenge: any) => {
                 const lastUpdatedAt = convertUTCToPSTDateString(new Date(challenge.user_challenges[0].last_updated_at).toDateString());
-                challenge.isComplete = lastUpdatedAt === today;
+                challenge.isComplete = lastUpdatedAt === today && challenge.user_challenges[0].progress > 0;
                 return challenge;
             }) || [];
             setChallenges(updatedChallenges);
