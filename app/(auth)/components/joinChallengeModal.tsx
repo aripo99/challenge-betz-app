@@ -28,6 +28,9 @@ export default function JoinChallengeModal({ showJoinModal, setShowJoinModal, re
                 console.log('Error inserting user challenge:', error.message);
             }
             else {
+                challenge.isComplete = false;
+                challenge.streak = 0;
+                challenge.progress = 0;
                 setChallenges([...challenges, challenge]);
             }
         }
