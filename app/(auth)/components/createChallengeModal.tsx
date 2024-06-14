@@ -41,6 +41,9 @@ export default function CreateChallengeModal({ showCreateModal, setShowCreateMod
                 console.log('Error inserting user challenge:', error.message);
             }
             else {
+                challenge.isComplete = false;
+                challenge.streak = 0;
+                challenge.progress = 0;
                 setChallenges([...challenges, challenge]);
             }
         }

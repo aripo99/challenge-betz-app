@@ -67,8 +67,8 @@ export function ChallengeCard({ challenge }: { challenge: any }) {
                             {challenge.challenge_description}
                         </Text>
                         <HStack mr="$2" mt="$2">
-                            <Text size="sm" mr="$2" style={styles.infoText}>Progress: {userChallenge.progress || userChallenge.user_challenges[0].progress}</Text>
-                            <Text size="sm" style={styles.infoText}>Streak: {getStreak()}</Text>
+                            <Text size="sm" mr="$2" style={styles.infoText}>Progress: {userChallenge.progress ?? userChallenge.user_challenges[0].progress}</Text>
+                            <Text size="sm" style={styles.infoText}>Streak: {challenge.streak ?? getStreak()}</Text>
                         </HStack>
                     </Card>
                 </Pressable>
