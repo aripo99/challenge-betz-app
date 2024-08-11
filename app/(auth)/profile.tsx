@@ -22,7 +22,10 @@ export default function Profile() {
         }
     }
     return (
-        <View>
+        <View style={{ justifyContent: 'center' }}>
+            <Text style={{ marginBottom: 20, marginTop: 20 }}>
+                Want to delete your account? This action is irreversible.
+            </Text>
             <Button onPress={onDeleteAccountPress}>
                 <Text>
                     Delete Account
